@@ -1,20 +1,23 @@
 import os
-import openai
+from openai import OpenAI
 
 
 def main():
-    # Load API key from environment variable
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        raise ValueError("Please set the OPENAI_API_KEY environment variable.")
-    openai.api_key = api_key
+   l     raise ValueError("Please set the OPENAI_API_KEY environment variable.")
 
-    # Create a test chat completion
-    response = openai.ChatCompletion.create(
+    # Create a client instance using the provided API key
+    client = OpenAI(api_key=api_key)
+
+    # Send a test chat completion request
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": "Hello, OpenAI!"}]
     )
-    print(response.choices[0].message["content"])
+
+    # Print the assistant's reply from the response
+    print(response.choices[0].message.content)
 
 
 if __name__ == "__main__":
